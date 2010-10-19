@@ -1,0 +1,9 @@
+= RSpecify
+
+Converting your tests from Test::Unit to RSpec is a drag when done by hand.  This utility intelligently converts them to get you (hopefully) 90% of the way there.  
+
+== In-Progress
+
+This gem is not useable and is being continually worked on.  Will be released as 0.1.0 once reasonably working and stable.
+
+DO NOT USE!
