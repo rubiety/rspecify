@@ -2,6 +2,7 @@ module RSpecify
   class Transformer < RubyScribe::Transformer
     def dependent_transformers
       [
+        RSpecify::Transformers::TestClassAndMethods.new,
         RSpecify::Transformers::TestUnitAssertions.new
       ]
     end

@@ -8,11 +8,11 @@ RSpec::Matchers.define :transform_to do |desc, expected|
   end
   
   failure_message_for_should do |actual|
-    "expected that:\n\n#{actual}\n\nwould transform to:\n\n#{expected}\n\nbut instead was:\n\n#{@transformed}\n\n#{transformed_as_ruby}"
+    "expected that:\n\n#{RubyParser.new.parse(actual)}\n\nwould transform to:\n\n#{RubyParser.new.parse(expected)}\n\nbut instead was:\n\n#{@transformed}\n\n#{transformed_as_ruby}"
   end
 
   failure_message_for_should_not do |actual|
-    "expected that:\n\n#{actual}\n\nwould not transform to:\n\n#{expected}\n\nbut instead was:\n\n#{@transformed}\n\n#{transformed_as_ruby}"
+    "expected that:\n\n#{RubyParser.new.parse(actual)}\n\nwould not transform to:\n\n#{RubyParser.new.parse(expected)}\n\nbut instead was:\n\n#{@transformed}\n\n#{transformed_as_ruby}"
   end
   
   description do
