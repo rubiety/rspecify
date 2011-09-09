@@ -5,7 +5,7 @@ module RSpecify
     # Catches instances where Test::Unit assertions are being called (such as assert_equal) and morphs
     # the calls to use the RSpec idiom.
     # 
-    class TestUnitAssertions < RubyScribe::Transformer
+    class TestUnitAssertions < RubyTransform::Transformer
       def transform(e)
         super sexp?(e) ? transform_test_unit_assertions(e) : e
       end

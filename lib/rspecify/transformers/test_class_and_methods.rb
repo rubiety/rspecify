@@ -6,7 +6,7 @@ module RSpecify
     # an RSpec describe block, then converts all methods contained therein beginning with "test_" to 
     # rspec "it" blocks.
     #
-    class TestClassAndMethods < RubyScribe::Transformer
+    class TestClassAndMethods < RubyTransform::Transformer
       def transform(e)
         super sexp?(e) ? transform_test_class_and_methods(e) : e
       end

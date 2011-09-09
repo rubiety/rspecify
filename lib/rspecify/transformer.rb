@@ -1,5 +1,5 @@
 module RSpecify
-  class Transformer < RubyScribe::Transformer
+  class Transformer < RubyTransform::Transformer
     def dependent_transformers
       [
         RSpecify::Transformers::TestClassAndMethods.new,
