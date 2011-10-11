@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.summary     = "Intelligently converts your Test::Unit tests into RSpec."
   s.description = "Provides some automation to attempt to convert your Ruby Test::Unit tests into RSpec."
   
+  s.executables = ["rspecify"]
   s.files        = Dir["{lib,spec}/**/*", "[A-Z]*", "init.rb"]
   s.require_path = "lib"
   
