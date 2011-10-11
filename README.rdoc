@@ -4,7 +4,7 @@ Converting your tests from Test::Unit to RSpec is a drag when done by hand.  Thi
 
 == In-Progress
 
-NOTE: This gem is not essentially unuseable and is being continually worked on - more of a proof of concept for now.
+NOTE: This gem is not essentially unusable and is being continually worked on - more of a proof of concept for now.
 
 == Command-Line Usage
 
