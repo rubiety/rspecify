@@ -23,6 +23,6 @@ Gem::Specification.new do |s|
   s.add_dependency("i18n", ["~> 0.6.0"])
   s.add_dependency("ruby_parser", ["~> 2.3.1"])
   s.add_dependency("ruby_scribe", ["~> 0.1.4"])
-  s.add_dependency("ruby_transform", ["~> 0.1.0"])
+  s.add_dependency("ruby_transform", ["~> 0.1.2"])
   s.add_development_dependency("rspec", ["~> 2.0"])
 end
