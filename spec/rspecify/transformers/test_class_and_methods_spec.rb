@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe RSpecify::Transformers::TestClassAndMethods.new do
+describe RSpecify::Transformers::TestClassAndMethods do
   
   describe "class extending ActiveSupport::TestCase" do
     subject { %{

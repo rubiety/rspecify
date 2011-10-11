@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe RSpecify::Transformers::TestUnitAssertions.new do
+describe RSpecify::Transformers::TestUnitAssertions do
   
   describe "short assert equals" do
     subject { %{assert_equals @one, "One"} }
