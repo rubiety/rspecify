@@ -4,6 +4,65 @@ Converting your tests from Test::Unit to RSpec is a drag when done by hand.  Thi
 
 == In-Progress
 
-This gem is not useable and is being continually worked on.  Will be released as 0.1.0 once reasonably working and stable.
+NOTE: This gem is not essentially unuseable and is being continually worked on - more of a proof of concept for now.
 
-DO NOT USE!
+== Command-Line Usage
+
+The gem comes with a thor task that you can use to print out a converted version of any Ruby file containing Test::Unit Code.
+
+  $ rspecify cat test_project.rb
+
+== API Usage
+
+This is built on the tree-walking base class RubyTransform::Transformer from the +ruby_transform+ project. 
+The principal transform, which is a composite of other more granular transforms, is +RSpecify::Transformer+. 
+Here's how it can be used in conjunction with +ruby_parser+:
+
+  sexp = RubyParser.new.parse(File.read(path))
+  sexp = RSpecify::Transformer.new.transform(sexp)
+
+  emitter = RubyScribe::Emitter.new
+  emitter.methods_without_parenthesis += ["it", "describe", "context", "should", "should_not"]
+  emitter.emit(sexp)
+
+== Supported Test::Unit Assertion Transforms:
+
+* +assert_equals+
+* +assert_not_equals+
+* +assert_not_nil+
+
+== Example:
+
+=== Original (Test::Unit):
+
+  class MyClass < ActiveSupport::TestCase
+    def test_should_be_one
+      assert_equals something, 1
+    end
+    
+    def test_should_not_be_one
+      assert_not_equals something, 1
+    end
+
+    def test_should_not_be_nil
+      assert_not_nil something
+    end
+  end
+
+
+=== Transformed (RSpec):
+
+  describe MyClass do
+    it "should be one" do
+      something.should == 1
+    end
+    
+    it "should not be one" do
+      something.should_not == 1
+    end
+    
+    it "should not be nil" do
+      something.should_not be_nil
+    end
+  end
+

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rspecify (0.1.1)
+    rspecify (0.1.2)
       activesupport (~> 3.0.10)
       i18n (~> 0.6.0)
       ruby_parser (~> 2.3.1)
