@@ -14,15 +14,19 @@ module RSpecify
         case
         when assert_equals_call?(e)
           transform_assert_equals_call(e)
+        when assert_not_equals_call?(e)
+          transform_assert_not_equals_call(e)
+        when assert_not_nil_call?(e)
+          transform_assert_not_nil_call(e)
         else
           e
         end
       end
       
+      # assert_equals:
       def assert_equals_call?(e)
         e.kind == :call && e.body[0].nil? && e.body[1] == :assert_equals
       end
-
       def transform_assert_equals_call(e)
         method_arguments = e.body[2].body
 
@@ -32,6 +36,33 @@ module RSpecify
           s(:arglist, method_arguments[1])
         )
       end
+
+      # assert_not_equals:
+      def assert_not_equals_call?(e)
+        e.kind == :call && e.body[0].nil? && e.body[1] == :assert_not_equals
+      end
+      def transform_assert_not_equals_call(e)
+        method_arguments = e.body[2].body
+
+        s(:call,
+          s(:call, method_arguments[0], :should_not, s(:arglist)),
+          :==,
+          s(:arglist, method_arguments[1])
+        )
+      end
+
+      # assert_not_nil:
+      def assert_not_nil_call?(e)
+        e.kind == :call && e.body[0].nil? && e.body[1] == :assert_not_nil
+      end
+      def transform_assert_not_nil_call(e)
+        method_arguments = e.body[2].body
+
+        s(:call, method_arguments[0], :should_not, 
+          s(:arglist, s(:call, nil, :be_nil, s(:arglist)))
+        )
+      end
+
     end
     
   end

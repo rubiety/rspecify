@@ -7,7 +7,10 @@ module RSpecify
     def cat(path)
       sexp = RubyParser.new.parse(File.read(path))
       sexp = RSpecify::Transformer.new.transform(sexp)
-      puts RubyScribe::Emitter.new.emit(sexp)
+      RubyScribe::Emitter.new.tap do |emitter|
+        emitter.methods_without_parenthesis += ["it", "describe", "context", "should", "should_not"]
+        puts emitter.emit(sexp)
+      end
     end
     
     protected

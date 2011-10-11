@@ -18,4 +18,14 @@ describe RSpecify::Transformers::TestUnitAssertions.new do
     it { should transform_to("should == ", %{@organization.people.first.should == Person.find_by_name_and_organization("Ben, Hughes", "RailsGarden")}) }
   end
   
+  describe "short assert not equals" do
+    subject { %{assert_not_equals @one, "One"} }
+    it { should transform_to("should_not ==", %{@one.should_not == "One"}) }
+  end
+
+  describe "short assert not nil" do
+    subject { %{assert_not_nil @one} }
+    it { should transform_to("should_not be_nil", %{@one.should_not(be_nil)}) }
+  end
+  
 end
