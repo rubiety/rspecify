@@ -12,10 +12,10 @@ module RSpecify
       
       def transform_test_unit_assertions(e)
         case
-        when assert_equals_call?(e)
-          transform_assert_equals_call(e)
-        when assert_not_equals_call?(e)
-          transform_assert_not_equals_call(e)
+        when assert_equal_call?(e)
+          transform_assert_equal_call(e)
+        when assert_not_equal_call?(e)
+          transform_assert_not_equal_call(e)
         when assert_not_nil_call?(e)
           transform_assert_not_nil_call(e)
         else
@@ -23,11 +23,11 @@ module RSpecify
         end
       end
       
-      # assert_equals:
-      def assert_equals_call?(e)
-        e.kind == :call && e.body[0].nil? && e.body[1] == :assert_equals
+      # assert_equal:
+      def assert_equal_call?(e)
+        e.kind == :call && e.body[0].nil? && e.body[1] == :assert_equal
       end
-      def transform_assert_equals_call(e)
+      def transform_assert_equal_call(e)
         method_arguments = e.body[2].body
 
         s(:call,
@@ -37,11 +37,11 @@ module RSpecify
         )
       end
 
-      # assert_not_equals:
-      def assert_not_equals_call?(e)
-        e.kind == :call && e.body[0].nil? && e.body[1] == :assert_not_equals
+      # assert_not_equal:
+      def assert_not_equal_call?(e)
+        e.kind == :call && e.body[0].nil? && e.body[1] == :assert_not_equal
       end
-      def transform_assert_not_equals_call(e)
+      def transform_assert_not_equal_call(e)
         method_arguments = e.body[2].body
 
         s(:call,
