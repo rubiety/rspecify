@@ -18,6 +18,22 @@ describe RSpecify::Transformers::TestClassAndMethods do
     }) }
   end
   
+  describe "class extending ActiveSupport::TestCase with Test naming convention" do
+    subject { %{
+      class MyClassTest < ActiveSupport::TestCase
+        do_something
+        something_else
+      end
+    } }
+
+    it { should transform_to("describe block", %{
+      describe MyClass do
+        do_something
+        something_else
+      end
+    }) }
+  end
+
   describe "class extending ActiveSupport::TestCase with methods" do
     subject { %{
       class MyClass < ActiveSupport::TestCase

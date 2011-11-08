@@ -20,8 +20,9 @@ module RSpecify
       end
       
       def transform_test_class(e)
+        name = e.body[0].to_s.gsub /Test$/, ""
         s(:iter, 
-          s(:call, nil, :describe, s(:arglist, s(:const, e.body[0]))),
+          s(:call, nil, :describe, s(:arglist, s(:const, name.to_sym))),
           nil,
           transform_test_class_method_definitions(e.body[2].body[0])
         )
