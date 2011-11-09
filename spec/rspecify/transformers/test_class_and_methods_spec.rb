@@ -84,7 +84,35 @@ describe RSpecify::Transformers::TestClassAndMethods do
     }) }
   end
 
-  describe "class extending ActiveSupport::TestCase with alternate method naming" do
+  describe "class extending ActiveSupport::TestCase with alternate methods naming" do
+    subject { %{
+      class MyClass < ActiveSupport::TestCase
+        test "should be valid" do
+          something
+          1
+        end
+        test "should not be valid" do
+          something
+          1
+        end
+      end
+    } }
+
+    it { should transform_to("describe block", %{
+      describe MyClass do
+        it "should be valid" do
+          something
+          1
+        end
+        it "should not be valid" do
+          something
+          1
+        end
+      end
+    }) }
+  end
+
+  describe "class extending ActiveSupport::TestCase with single alternate method naming" do
     subject { %{
       class MyClass < ActiveSupport::TestCase
         test "should be valid" do
