@@ -64,6 +64,26 @@ describe RSpecify::Transformers::TestClassAndMethods do
     }) }
   end
 
+  describe "class extending ActiveSupport::TestCase with single method" do
+    subject { %{
+      class MyClass < ActiveSupport::TestCase
+        def test_should_be_valid
+          something
+          1
+        end
+      end
+    } }
+
+    it { should transform_to("describe block", %{
+      describe MyClass do
+        it "should be valid" do
+          something
+          1
+        end
+      end
+    }) }
+  end
+
   describe "class extending ActiveSupport::TestCase with alternate method naming" do
     subject { %{
       class MyClass < ActiveSupport::TestCase
@@ -74,8 +94,7 @@ describe RSpecify::Transformers::TestClassAndMethods do
       end
     } }
 
-    it { pending "not yet implemented"
-    should transform_to("describe block", %{
+    it { should transform_to("describe block", %{
       describe MyClass do
         it "should be valid" do
           something
