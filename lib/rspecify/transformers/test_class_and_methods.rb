@@ -43,6 +43,11 @@ module RSpecify
             nil,
             e.body[2].body[0]
           )
+        elsif e.kind == :iter && e.body[0].kind == :call && e.body[0].body[1] == :test
+          # All we need to do is change the name of the invoked method
+          e.clone.tap do |e|
+            e.body[0][2] = :it
+          end
         else
           e
         end
