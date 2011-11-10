@@ -31,9 +31,9 @@ module RSpecify
         method_arguments = e.body[2].body
 
         s(:call,
-          s(:call, method_arguments[0], :should, s(:arglist)),
+          s(:call, method_arguments[1], :should, s(:arglist)),
           :==,
-          s(:arglist, method_arguments[1])
+          s(:arglist, method_arguments[0])
         )
       end
 
@@ -45,9 +45,9 @@ module RSpecify
         method_arguments = e.body[2].body
 
         s(:call,
-          s(:call, method_arguments[0], :should_not, s(:arglist)),
+          s(:call, method_arguments[1], :should_not, s(:arglist)),
           :==,
-          s(:arglist, method_arguments[1])
+          s(:arglist, method_arguments[0])
         )
       end
 
