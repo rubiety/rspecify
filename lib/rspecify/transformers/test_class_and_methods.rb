@@ -20,31 +20,37 @@ module RSpecify
       end
       
       def transform_test_class(e)
+        name = e.body[0].to_s.gsub /Test$/, ""
+        class_body = e.body[2].body[0]
+        if class_body.kind == :block
+          new_block = Sexp.from_array([:block] + class_body.body.map {|e| transform_test_class_method_definition e })
+        else
+          new_block = transform_test_class_method_definition class_body
+        end
         s(:iter, 
-          s(:call, nil, :describe, s(:arglist, s(:const, e.body[0]))),
+          s(:call, nil, :describe, s(:arglist, s(:const, name.to_sym))),
           nil,
-          transform_test_class_method_definitions(e.body[2].body[0])
+          new_block
         )
-      end
-      
-      def transform_test_class_method_definitions(e)
-        Sexp.from_array([e.kind] + e.body.map do |child|
-          if child.kind == :defn && child.body[0].to_s.starts_with?("test_") && child.body[1].body.empty?
-            transform_test_class_method_definition(child)
-          else
-            child
-          end
-        end)
       end
       
       def transform_test_class_method_definition(e)
-        test_name = e.body[0].to_s.gsub(/^test_/, "").gsub("_", " ")
-        
-        s(:iter,
-          s(:call, nil, :it, s(:arglist, s(:str, test_name))),
-          nil,
-          e.body[2].body[0]
-        )
+        if e.kind == :defn && e.body[0].to_s.starts_with?("test_") && e.body[1].body.empty?
+          test_name = e.body[0].to_s.gsub(/^test_/, "").gsub("_", " ")
+
+          s(:iter,
+            s(:call, nil, :it, s(:arglist, s(:str, test_name))),
+            nil,
+            e.body[2].body[0]
+          )
+        elsif e.kind == :iter && e.body[0].kind == :call && e.body[0].body[1] == :test
+          # All we need to do is change the name of the invoked method
+          e.clone.tap do |e|
+            e.body[0][2] = :it
+          end
+        else
+          e
+        end
       end
     end
     

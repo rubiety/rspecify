@@ -18,6 +18,22 @@ describe RSpecify::Transformers::TestClassAndMethods do
     }) }
   end
   
+  describe "class extending ActiveSupport::TestCase with Test naming convention" do
+    subject { %{
+      class MyClassTest < ActiveSupport::TestCase
+        do_something
+        something_else
+      end
+    } }
+
+    it { should transform_to("describe block", %{
+      describe MyClass do
+        do_something
+        something_else
+      end
+    }) }
+  end
+
   describe "class extending ActiveSupport::TestCase with methods" do
     subject { %{
       class MyClass < ActiveSupport::TestCase
@@ -41,6 +57,74 @@ describe RSpecify::Transformers::TestClassAndMethods do
         end
         
         it "should not be valid" do
+          something
+          1
+        end
+      end
+    }) }
+  end
+
+  describe "class extending ActiveSupport::TestCase with single method" do
+    subject { %{
+      class MyClass < ActiveSupport::TestCase
+        def test_should_be_valid
+          something
+          1
+        end
+      end
+    } }
+
+    it { should transform_to("describe block", %{
+      describe MyClass do
+        it "should be valid" do
+          something
+          1
+        end
+      end
+    }) }
+  end
+
+  describe "class extending ActiveSupport::TestCase with alternate methods naming" do
+    subject { %{
+      class MyClass < ActiveSupport::TestCase
+        test "should be valid" do
+          something
+          1
+        end
+        test "should not be valid" do
+          something
+          1
+        end
+      end
+    } }
+
+    it { should transform_to("describe block", %{
+      describe MyClass do
+        it "should be valid" do
+          something
+          1
+        end
+        it "should not be valid" do
+          something
+          1
+        end
+      end
+    }) }
+  end
+
+  describe "class extending ActiveSupport::TestCase with single alternate method naming" do
+    subject { %{
+      class MyClass < ActiveSupport::TestCase
+        test "should be valid" do
+          something
+          1
+        end
+      end
+    } }
+
+    it { should transform_to("describe block", %{
+      describe MyClass do
+        it "should be valid" do
           something
           1
         end
