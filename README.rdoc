@@ -1,3 +1,5 @@
+{<img src="https://secure.travis-ci.org/rubiety/rspecify.png?branch=master" alt="Build Status" />}[http://travis-ci.org/rubiety/rspecify]
+
 = RSpecify
 
 Converting your tests from Test::Unit to RSpec is a drag when done by hand.  This utility intelligently converts them to get you (hopefully) 90% of the way there.  
